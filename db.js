@@ -1,18 +1,14 @@
 const Sequelize = require('sequelize');
-                                //database username   password
-const sequelize = new Sequelize('gamedb', 'postgres', 'avavih1997', {
-    host: 'localhost',
-    dialect: 'postgres'
+require('dotenv').config({ path: './process.env'});
+
+const sequelize = new Sequelize( process.env.DB, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: 'postgres',
+  port: process.env.DB_PORT
 })
 
-sequelize.authenticate().then(
-    function success() {
-        console.log("Connected to DB");
-    },
+sequelize.authenticate()
+  .then(() => console.log('Connected to DgB'))
+  .catch((err) => console.log(`Error: ${err}`));
 
-    function fail(err) {
-        console.log(`Error: ${err}`);
-    }
-)
-
-module.exports = sequelize;
+module.exports = { sequelize, Sequelize };
